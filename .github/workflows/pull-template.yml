@@ -1,0 +1,29 @@
+name: Pull template
+on:
+  schedule:
+    # - cron: 0 1 * * *
+    - cron: 1/30 * * * *
+jobs:
+  pull:
+    name: Pull template
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: main
+    - name: Include .gitconfig to .git/config
+      run: |
+        [ ! -d '.git' ] || git config --local include.path $PWD/.gitconfig
+    - name: Pull template
+      run: |
+        git fetch template/90dy/lib.js
+        git merge --squash template/90dy/lib.js
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        title: Auto upgrade from template
+        branch: template/90dy/lib.js
+        commit-message: "chore: auto upgrade from template"

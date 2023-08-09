@@ -1,0 +1,32 @@
+{
+  "name": "@90dy/lib",
+  "version": "0.0.1",
+	"author": "90dy <90dy@proton.me>",
+	"repository": "https://github.com/90dy/lib.js",
+  "license": "SEE LICENSE IN LICENSE",
+  "description": "A library template",
+  "main": "index.ts",
+  "release": {
+    "extends": "90dy"
+  },
+  "eslintConfig": {
+    "extends": "90dy"
+  },
+  "babel": {
+    "presets": [
+      "90dy"
+    ]
+  },
+	"lint-staged": "90dy",
+  "prettier": "90dy",
+  "scripts": {
+    "prepare": "./scripts/prepare.sh",
+		"postinstall": "./scripts/postinstall.sh",
+		"prepack": "pinst --disable",
+		"postpack": "pinst --enable"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "90dy": "latest"
+  }
+}
