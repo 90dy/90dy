@@ -1,6 +1,6 @@
 ### Hi there 👋
 
-⚠️ Right, now every ts-* repository are work in progress.
+⚠️ Right now, every ts-* repository are work in progress.
 
 
 
