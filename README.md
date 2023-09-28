@@ -1,8 +1,6 @@
 ### Hi there 👋
 
-⚠️ Right now, every ts-* & gha-* repository are work in progress.
-
-
+⚠️ Right now, every ts-* & some gha-* repository are work in progress.
 
 <!--
 **90dy/90dy** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
