@@ -1,0 +1,33 @@
+name: Git sync templates
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Cron every day at 00:00 UTC
+    - cron: '0 0 * * *'
+jobs:
+
+  git-sync-templates:
+    strategy:
+      matrix:
+        template:
+          - 90dy/ts-lib
+
+    name: Sync ${{ matrix.template }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Include .gitconfig to .git/config
+      run: |
+        [ ! -d '.git' ] || git config --local include.path $PWD/.gitconfig
+
+    - uses: 90dy/gha-git-sync@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        repository: ${{ matrix.template }}
+        branch: ${{ github.ref }}
+        user-email: 90dy+bot@proton.me
+        user-name: 90dy
