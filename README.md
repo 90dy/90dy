@@ -4,13 +4,13 @@
 
 ## Github actions
 
-* [gha-semantic-relaase](github.com/90dy/gha-semantic-relaase) - Automate versioning and release management
-* [gha-git-sync](github.com/90dy/gha-git-sync) - Sync the latest updates from another repository
+* [gha-semantic-relaase](https://github.com/90dy/gha-semantic-relaase) - Automate versioning and release management
+* [gha-git-sync](https://github.com/90dy/gha-git-sync) - Sync the latest updates from another repository
 
 ## Typescript
 
 
-* 🚧 [ts-lib](github.com/90dy/ts-lib) - Generate your typescript lib and release it fast
+* 🚧 [ts-lib](https://github.com/90dy/ts-lib) - Generate your typescript lib and release it fast
 * ... more to come
 
 <!--
