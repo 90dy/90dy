@@ -4,7 +4,7 @@
 
 ## Github actions
 
-* [gha-semantic-relaase](https://github.com/90dy/gha-semantic-relaase) - Automate versioning and release management
+* [gha-semantic-release](https://github.com/90dy/gha-semantic-release) - Automate versioning and release management
 * [gha-git-sync](https://github.com/90dy/gha-git-sync) - Sync the latest updates from another repository
 
 ## Typescript
