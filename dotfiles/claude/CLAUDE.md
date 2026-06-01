@@ -80,6 +80,14 @@ Do not leave stale worktrees around.
 - Before suggesting commands that touch repos, confirm which worktree we are
   in; paths under `<repo>.worktrees/<workspace>` are workspace-scoped work,
   the bare `<repo>` is main.
+- **Before opening any MR/PR**, rebase the branch on the latest upstream
+  default branch:
+
+      git fetch origin
+      git pull --rebase origin <default-branch>
+
+  Do this in the worktree, just before `glab mr create` / `gh pr create`. This
+  keeps history linear and avoids surprise conflicts after review starts.
 
 ## This file is versioned
 
