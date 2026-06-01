@@ -27,6 +27,18 @@ that group related repos / tasks for that org. Examples:
 When a task spans multiple repos in the same org, expect to find (or extend) one of
 these workspace files rather than opening repos individually.
 
+### Each workspace has a runbook
+
+Alongside every `<name>.code-workspace` file, there is (or should be) a sibling
+`<name>.md` runbook in the same `<org>.workspaces/` directory. It captures the
+conventions for that workspace's effort: source-of-truth links, per-issue
+workflow, reference repos, naming rules, status snapshot.
+
+When working inside a workspace, **read the matching runbook first** before
+making structural decisions (Dockerfile shape, CI template, MR description,
+target repo paths). If the runbook is missing, create one as the first
+deliverable of the effort.
+
 ## Worktrees (one per workspace, per repo)
 
 Parallel work uses `git worktree`, not branch switching. Worktrees live as a
