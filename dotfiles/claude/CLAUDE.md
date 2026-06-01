@@ -61,14 +61,23 @@ branch — do not leave stale worktrees around.
 ## This file is versioned
 
 This CLAUDE.md is a symlink to
-`~/workspace/github.com/90dy/90dy/dotfiles/CLAUDE.md` and is tracked in the
-public repo `github.com/90dy/90dy` under `dotfiles/`.
+`~/workspace/github.com/90dy/90dy/dotfiles/claude/CLAUDE.md` and is tracked
+in the public repo `github.com/90dy/90dy` under `dotfiles/`.
 
-**Whenever you (Claude) edit this file**, finish by committing and pushing the
-change from the 90dy repo:
+The `dotfiles/` tree mirrors `$HOME` with the leading dots stripped: each
+top-level entry `dotfiles/<name>` corresponds to `~/.<name>`. A `Makefile`
+inside `dotfiles/` manages the symlinks:
+
+    cd ~/workspace/github.com/90dy/90dy/dotfiles
+    make install    # create symlinks (file-level, parents preserved)
+    make uninstall  # remove only symlinks pointing back into this repo
+    make list       # dry-run
+
+**Whenever you (Claude) edit this file**, finish by committing and pushing
+the change from the 90dy repo:
 
     cd ~/workspace/github.com/90dy/90dy
-    git add dotfiles/CLAUDE.md
+    git add dotfiles/claude/CLAUDE.md
     git commit -m "<one-line description of the rule changed>"
     git push
 
