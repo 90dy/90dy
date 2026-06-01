@@ -79,6 +79,11 @@ Do not leave stale worktrees around.
 - Default to `gh` / `glab` for GitHub / GitLab CLI work.
 - Treat the main checkout as the long-lived branch (usually `main`); never commit
   task work directly to it — always through a worktree.
+- **Dockerfiles live at the repo root** (`./Dockerfile`), never in a
+  `docker/` subdirectory. Don't set `DOCKERFILE: docker/Dockerfile` in CI —
+  let buildah / docker pick up the default root `Dockerfile`. If a reference
+  repo uses `docker/Dockerfile`, ignore that detail and put yours at root
+  anyway.
 - Before suggesting commands that touch repos, confirm which worktree we are
   in; paths under `<repo>.worktrees/<workspace>@<issue-id>` are workspace-
   scoped task work, the bare `<repo>` is main.
