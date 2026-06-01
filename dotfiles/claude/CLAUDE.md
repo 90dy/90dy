@@ -34,13 +34,13 @@ live as a sibling to the repo directory:
 
     ~/workspace/<host>/<org>/<repo>.worktrees/<task-branch>
 
-The `<task-branch>` segment is the branch name Linear generates for the ticket
-(Linear → "Copy git branch name"). Use that name verbatim for both the branch and
-the worktree directory; slashes in the branch name are preserved as nested dirs.
+The `<task-branch>` segment is the branch name I will give you for the task.
+Use that name verbatim for both the branch and the worktree directory; slashes
+in the branch name are preserved as nested directories on disk.
 
 Standard flow for starting a task:
 
-1. Get the branch name from the Linear ticket.
+1. Wait for me to provide the branch name — do not invent one.
 2. From the repo's main checkout, create the worktree:
    `git worktree add ../<repo>.worktrees/<branch> -b <branch>`
    (or without `-b` if the branch already exists on the remote).
@@ -52,7 +52,7 @@ branch — do not leave stale worktrees around.
 
 ## Working with me
 
-- Default to `gh` / `glab` for GitHub / GitLab CLI work; Linear for tickets.
+- Default to `gh` / `glab` for GitHub / GitLab CLI work.
 - Treat the main checkout as the long-lived branch (usually `main`); never commit
   task work directly to it — always through a worktree.
 - Before suggesting commands that touch repos, confirm which worktree we are in;
