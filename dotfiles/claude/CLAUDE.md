@@ -39,23 +39,23 @@ making structural decisions (Dockerfile shape, CI template, MR description,
 target repo paths). If the runbook is missing, create one as the first
 deliverable of the effort.
 
-## Worktrees (one per workspace, per repo)
+## Worktrees (one per workspace, per repo, per task branch)
 
-Parallel work uses `git worktree`, not branch switching. Worktrees live as a
-sibling to the repo directory, and the worktree directory is named after the
-VS Code workspace it belongs to — **not** after the branch:
+Parallel work uses `git worktree`, not branch switching. Worktrees live as
+a sibling to the repo directory. The worktree directory name surfaces
+**both** the VS Code workspace and the specific task branch:
 
-    ~/workspace/<host>/<org>/<repo>.worktrees/<workspace>
+    ~/workspace/<host>/<org>/<repo>.worktrees/<workspace>@<task-branch>
 
-`<workspace>` is the basename of the `.code-workspace` file currently in use
-(e.g. `containerization.code-workspace` → `containerization`). All worktrees
-across different repos that participate in the same cross-repo effort share
-the same `<workspace>` segment, so they line up cleanly inside the workspace's
-`folders` array.
-
-The **branch** checked out inside the worktree is independent of the
-directory name — I will give it to you. Do not derive the branch from the
-workspace name or invent one.
+- `<workspace>` is the basename of the `.code-workspace` file in use
+  (e.g. `containerization.code-workspace` → `containerization`). All
+  worktrees that participate in the same cross-repo effort share the same
+  `<workspace>` segment, so they line up cleanly inside the workspace's
+  `folders` array.
+- `<task-branch>` is the branch checked out inside the worktree, the name
+  I will give you. Slashes in the branch name are preserved as nested
+  directories on disk (e.g. `containerization@user/devplat-38-foo/` ends up
+  as `containerization@user/` containing `devplat-38-foo/`).
 
 Standard flow for starting work in a workspace:
 
@@ -63,10 +63,10 @@ Standard flow for starting work in a workspace:
    or ask if unclear).
 2. Wait for me to provide the branch name for this repo in this workspace.
 3. From the repo's main checkout, create the worktree:
-   `git worktree add ../<repo>.worktrees/<workspace> -b <branch>`
+   `git worktree add ../<repo>.worktrees/<workspace>@<branch> -b <branch>`
    (drop `-b` if the branch already exists on the remote).
 4. Add the new worktree path to the workspace's `.code-workspace` `folders`
-   array if it isn't there yet.
+   array in the **same turn** as the `git worktree add` — not later.
 
 When the workspace's work is done: merge/close the branches, then
 `git worktree remove <path>` for each repo and delete the local branches.
@@ -78,8 +78,8 @@ Do not leave stale worktrees around.
 - Treat the main checkout as the long-lived branch (usually `main`); never commit
   task work directly to it — always through a worktree.
 - Before suggesting commands that touch repos, confirm which worktree we are
-  in; paths under `<repo>.worktrees/<workspace>` are workspace-scoped work,
-  the bare `<repo>` is main.
+  in; paths under `<repo>.worktrees/<workspace>@<branch>` are workspace-
+  scoped task work, the bare `<repo>` is main.
 - **Before opening any MR/PR**, rebase the branch on the latest upstream
   default branch:
 
