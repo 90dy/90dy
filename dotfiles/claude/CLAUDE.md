@@ -27,36 +27,47 @@ that group related repos / tasks for that org. Examples:
 When a task spans multiple repos in the same org, expect to find (or extend) one of
 these workspace files rather than opening repos individually.
 
-## Worktrees (one per task)
+## Worktrees (one per workspace, per repo)
 
-Parallel tasks on the same repo use `git worktree`, not branch switching. Worktrees
-live as a sibling to the repo directory:
+Parallel work uses `git worktree`, not branch switching. Worktrees live as a
+sibling to the repo directory, and the worktree directory is named after the
+VS Code workspace it belongs to — **not** after the branch:
 
-    ~/workspace/<host>/<org>/<repo>.worktrees/<task-branch>
+    ~/workspace/<host>/<org>/<repo>.worktrees/<workspace>
 
-The `<task-branch>` segment is the branch name I will give you for the task.
-Use that name verbatim for both the branch and the worktree directory; slashes
-in the branch name are preserved as nested directories on disk.
+`<workspace>` is the basename of the `.code-workspace` file currently in use
+(e.g. `containerization.code-workspace` → `containerization`). All worktrees
+across different repos that participate in the same cross-repo effort share
+the same `<workspace>` segment, so they line up cleanly inside the workspace's
+`folders` array.
 
-Standard flow for starting a task:
+The **branch** checked out inside the worktree is independent of the
+directory name — I will give it to you. Do not derive the branch from the
+workspace name or invent one.
 
-1. Wait for me to provide the branch name — do not invent one.
-2. From the repo's main checkout, create the worktree:
-   `git worktree add ../<repo>.worktrees/<branch> -b <branch>`
-   (or without `-b` if the branch already exists on the remote).
-3. Add the new worktree path to the relevant `<org>.workspaces/*.code-workspace`
-   file's `folders` array if the task warrants it.
+Standard flow for starting work in a workspace:
 
-When finishing a task: merge/close, then `git worktree remove <path>` and delete the
-branch — do not leave stale worktrees around.
+1. Identify the workspace I'm using (basename of the open `.code-workspace`,
+   or ask if unclear).
+2. Wait for me to provide the branch name for this repo in this workspace.
+3. From the repo's main checkout, create the worktree:
+   `git worktree add ../<repo>.worktrees/<workspace> -b <branch>`
+   (drop `-b` if the branch already exists on the remote).
+4. Add the new worktree path to the workspace's `.code-workspace` `folders`
+   array if it isn't there yet.
+
+When the workspace's work is done: merge/close the branches, then
+`git worktree remove <path>` for each repo and delete the local branches.
+Do not leave stale worktrees around.
 
 ## Working with me
 
 - Default to `gh` / `glab` for GitHub / GitLab CLI work.
 - Treat the main checkout as the long-lived branch (usually `main`); never commit
   task work directly to it — always through a worktree.
-- Before suggesting commands that touch repos, confirm which worktree we are in;
-  paths under `<repo>.worktrees/<branch>` are the task, the bare `<repo>` is main.
+- Before suggesting commands that touch repos, confirm which worktree we are
+  in; paths under `<repo>.worktrees/<workspace>` are workspace-scoped work,
+  the bare `<repo>` is main.
 
 ## This file is versioned
 
