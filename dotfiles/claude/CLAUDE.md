@@ -95,6 +95,12 @@ Do not leave stale worktrees around.
 
   Do this in the worktree, just before `glab mr create` / `gh pr create`. This
   keeps history linear and avoids surprise conflicts after review starts.
+- **Stop and check in every ~5k tokens of exploration.** If a single
+  research thread (file reads + greps + API queries) is approaching ~5k
+  tokens of *tool output* without a concrete action or report back, pause:
+  summarise what's been learned so far, state the next planned probe, and
+  let me redirect. Don't keep digging on a hunch — exploration spirals
+  burn context and money without proportional value.
 
 ## This file is versioned
 
