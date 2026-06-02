@@ -77,6 +77,13 @@ Do not leave stale worktrees around.
 ## Working with me
 
 - Default to `gh` / `glab` for GitHub / GitLab CLI work.
+- **Default to `rg` (ripgrep), never `grep`, for any file search.** `rg`
+  obeys `.gitignore` and binary detection by default, so the output is
+  smaller and more relevant — fewer tokens in context, less noise.
+  Prefer flags like `-l` (filenames only), `-n` (line numbers), `-C2`
+  (small context window), and a path argument scoping the search. Use
+  `grep` only when piping the output of another command or when `rg`
+  isn't installed.
 - Treat the main checkout as the long-lived branch (usually `main`); never commit
   task work directly to it — always through a worktree.
 - **Dockerfiles live at the repo root** (`./Dockerfile`), never in a
