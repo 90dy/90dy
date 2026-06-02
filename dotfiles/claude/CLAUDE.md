@@ -109,6 +109,47 @@ Do not leave stale worktrees around.
   let me redirect. Don't keep digging on a hunch — exploration spirals
   burn context and money without proportional value.
 
+## Search hygiene (how to stay under 5k)
+
+The 5k-token rule above only works if each probe is small. Tactics, in
+rough order of impact:
+
+1. **Stage searches cheapest-first.** Start with the question that
+   returns the least output:
+   - `rg -l <pat> <path>` — filenames only ("where does it exist?")
+   - `rg -c <pat> <path>` — count per file ("where's the density?")
+   - Only escalate to `rg -n -C1` after one of those narrows the field.
+
+2. **Cap every output explicitly.**
+   - `rg -m 3 <pat>` — at most 3 hits per file
+   - `head -20` on anything that could spill
+   - `--files-with-matches | head` over a raw grep dump
+
+3. **For JSON / structured data, extract — don't dump.**
+   - `jq -r '.path.to.field'`, not `cat | python -c print(d)`
+   - When introspecting shape, ask for *keys only*:
+     `python3 -c 'import json; print(list(json.load(open(F)).keys()))'`
+   - Never `json.dumps(d, indent=2)` without slicing first.
+
+4. **Read windows, not whole files.**
+   - `Read` tool with `offset` + `limit` — go straight to known line ranges
+   - Avoid `cat <bigfile>`. Use `rg -n` to find a hint line, then `Read`
+     around it.
+
+5. **Type and glob filters cut noise.**
+   - `rg -t yaml`, `rg -t json` to scope by language
+   - `rg -g '!*.lock' -g '!node_modules'` to exclude
+
+6. **Use the Explore subagent for open-ended scans.** Raw bytes stay in
+   the subagent's context; only its written summary comes back to mine.
+
+7. **Count result *bytes*, not tool calls.** A 50-line `rg` is cheap; a
+   50-line JSON tree dump is not. After each call, ask "did that output
+   contain mostly signal or mostly structure?"
+
+8. **When the answer is "ask the human", ask.** A one-sentence reply
+   from the user can replace a multi-step search and routinely will.
+
 ## This file is versioned
 
 This CLAUDE.md is a symlink to
