@@ -3,6 +3,19 @@
 These are Godefroy's working conventions for any work done on this machine. They apply
 to every repo unless a repo-local CLAUDE.md says otherwise.
 
+## Your documentation lives in Obsidian
+
+Use the Obsidian vault as your own persistent documentation — the place to record
+*how to access and navigate* Shadow's tools, repos, and infrastructure (workspaces, IDs,
+repo layouts, access shortcuts, optimizations), so you don't re-discover paths and
+conventions each session. This is reference/navigation knowledge, **not** a log of work done.
+
+- Vault: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/iCloud` (iCloud-synced).
+- Shadow docs: the `💼 Shadow/` folder. Start at `💼 Shadow/README.md` (the index).
+- Split into multiple files per tool/topic when that's clearer (`Linear.md`, `Slack.md`,
+  `Repos.md`, `Infrastructure.md`, …) and link them from `README.md`.
+- Read the relevant note before navigating a Shadow tool; append whatever you newly learn.
+
 ## Workspace layout
 
 All code lives under `~/workspace/`, organized by remote host → org → repo:
