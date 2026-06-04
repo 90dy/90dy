@@ -6,11 +6,11 @@ Thin always-loaded entrypoint. The actual content — rules, knowledge, memory, 
 
 @~/Workspace/github.com/90dy/mind/README.md
 @~/Workspace/github.com/90dy/mind/shared/user.md
-@~/Workspace/github.com/90dy/mind/shared/working-conventions.md
+@~/Workspace/github.com/90dy/mind/shared/conventions/README.md
 
 First import: the **navigation map** (`mind/README.md`) — layout, decision tree, where new knowledge goes.
 Second: **who I am** (`shared/user.md`).
-Third: the **working rules** (`shared/working-conventions.md` — itself a TOC that transitively @imports each module under `shared/conventions/`).
+Third: the **working rules** (`shared/conventions/README.md` — itself a TOC that transitively @imports each module under `shared/conventions/`).
 
 First time Claude loads this file with the external imports, it asks once to approve — accept.
 
