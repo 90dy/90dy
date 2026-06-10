@@ -7,10 +7,16 @@ Thin always-loaded entrypoint. The actual content — rules, knowledge, memory, 
 @~/Workspace/github.com/90dy/mind/README.md
 @~/Workspace/github.com/90dy/mind/shared/user.md
 @~/Workspace/github.com/90dy/mind/shared/conventions/README.md
+@~/Workspace/github.com/90dy/mind/shared/conventions/workspace.md
+@~/Workspace/github.com/90dy/mind/shared/conventions/worktrees.md
+@~/Workspace/github.com/90dy/mind/shared/conventions/communication.md
+@~/Workspace/github.com/90dy/mind/shared/conventions/planning.md
+@~/Workspace/github.com/90dy/mind/shared/conventions/search.md
+@~/Workspace/github.com/90dy/mind/shared/conventions/mind-maintenance.md
 
-First import: the **navigation map** (`mind/README.md`) — layout, decision tree, where new knowledge goes.
-Second: **who I am** (`shared/user.md`).
-Third: the **working rules** (`shared/conventions/README.md` — itself a TOC that transitively @imports each module under `shared/conventions/`).
+First: the **navigation map** (`mind/README.md`).
+Then: **who I am** (`shared/user.md`).
+Then: the **working rules** — `conventions/README.md` for the TOC + each module listed directly. The README's own nested `@import` lines don't get expanded by the harness, so each module is imported explicitly above. When new convention modules land in `shared/conventions/`, add a matching `@import` line here.
 
 First time Claude loads this file with the external imports, it asks once to approve — accept.
 
