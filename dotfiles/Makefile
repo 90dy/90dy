@@ -123,19 +123,39 @@ mind mind-list mind-uninstall:
 	}; \
 	apply "$(HOME_DIR)/.claude/CLAUDE.md"                                "$(MIND_DIR)/tools/claude/CLAUDE.md"; \
 	apply "$(HOME_DIR)/.claude/projects/$(PROJECT_PATH)/memory"          "$(MIND_DIR)/tools/claude/memory"; \
-	for kind in agents skills workflows; do \
-	  apply "$(HOME_DIR)/.claude/$$kind/root"                            "$(MIND_DIR)/$$kind"; \
-	  shopt -s nullglob; \
-	  for ctx in "$(MIND_DIR)/contexts"/*/; do \
-	    name=$$(basename "$$ctx"); \
-	    if [ -d "$$ctx$$kind" ]; then \
-	      apply "$(HOME_DIR)/.claude/$$kind/$$name"                       "$$ctx$$kind"; \
-	    fi; \
-	  done; \
-	  shopt -u nullglob; \
+	shopt -s nullglob; \
+	for f in "$(MIND_DIR)/tools/claude/commands"/*.md; do \
+	  apply "$(HOME_DIR)/.claude/commands/$$(basename "$$f")"             "$$f"; \
 	done; \
+	for d in "$(MIND_DIR)/agents"/; do : ; done; \
+	apply "$(HOME_DIR)/.claude/agents/root"                              "$(MIND_DIR)/agents"; \
+	for ctx in "$(MIND_DIR)/contexts"/*/; do \
+	  name=$$(basename "$$ctx"); \
+	  [ -d "$$ctx""agents" ] && apply "$(HOME_DIR)/.claude/agents/$$name" "$$ctx""agents"; \
+	done; \
+	for d in "$(MIND_DIR)/skills"/*/; do \
+	  apply "$(HOME_DIR)/.claude/skills/$$(basename "$$d")"               "$$d"; \
+	done; \
+	for ctx in "$(MIND_DIR)/contexts"/*/; do \
+	  name=$$(basename "$$ctx"); \
+	  for d in "$$ctx""skills"/*/; do \
+	    [ -d "$$d" ] || continue; \
+	    apply "$(HOME_DIR)/.claude/skills/$$name-$$(basename "$$d")"      "$$d"; \
+	  done; \
+	done; \
+	for f in "$(MIND_DIR)/workflows"/*.js; do \
+	  apply "$(HOME_DIR)/.claude/workflows/$$(basename "$$f")"            "$$f"; \
+	done; \
+	for ctx in "$(MIND_DIR)/contexts"/*/; do \
+	  name=$$(basename "$$ctx"); \
+	  for f in "$$ctx""workflows"/*.js; do \
+	    [ -f "$$f" ] || continue; \
+	    apply "$(HOME_DIR)/.claude/workflows/$$name-$$(basename "$$f" .js).js" "$$f"; \
+	  done; \
+	done; \
+	shopt -u nullglob; \
 	if [ "$$mode" = mind-uninstall ]; then \
-	  for kind in agents skills workflows; do \
+	  for kind in agents skills workflows commands; do \
 	    rmdir "$(HOME_DIR)/.claude/$$kind" 2>/dev/null || true; \
 	  done; \
 	fi
