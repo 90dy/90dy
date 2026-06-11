@@ -16,19 +16,27 @@ SHELL       := /bin/bash
 DOTFILES_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 HOME_DIR     := $(HOME)
 
+# mind/ vault location (override with MIND_DIR=... if cloned elsewhere)
+MIND_DIR     ?= $(HOME)/Workspace/github.com/90dy/mind
+# Claude Code project-memory path: $HOME with `/` → `-` (Claude convention)
+PROJECT_PATH := $(shell echo "$(HOME)" | sed 's|/|-|g')
+
 # Top-level meta files that are not dotfile sources
 SKIP_RE := ^(Makefile|README|README\.md|\.git|\.gitignore|\.DS_Store)$$
 
-.PHONY: help install uninstall list
+.PHONY: help install uninstall list mind mind-list mind-uninstall
 .DEFAULT_GOAL := help
 
 help:
 	@echo 'Manage symlinks between this dotfiles tree and $$HOME.'
 	@echo ''
 	@echo 'Targets:'
-	@echo '  install    Symlink each entry as ~/.<name>  (claude/CLAUDE.md -> ~/.claude/CLAUDE.md)'
-	@echo '  uninstall  Remove only symlinks that still point back into this repo'
-	@echo '  list       Show what install would do (dry-run)'
+	@echo '  install         Symlink each dotfiles/<entry> as ~/.<name>'
+	@echo '  uninstall       Remove only symlinks that still point back into this repo'
+	@echo '  list            Show what install would do (dry-run)'
+	@echo '  mind            Symlink the mind/ vault into ~/.claude/ (CLAUDE.md, memory, agents, skills, workflows)'
+	@echo '  mind-list       Print the mind symlinks (dry-run)'
+	@echo '  mind-uninstall  Remove only mind symlinks'
 
 install uninstall list:
 	@mode="$@"; \
@@ -74,3 +82,60 @@ install uninstall list:
 	    find "$$dst_root" -type d -empty -delete 2>/dev/null || true; \
 	  fi; \
 	done
+
+# ─── mind/ vault symlinks ────────────────────────────────────────────────
+# Layout:
+#   ~/.claude/CLAUDE.md                                          → mind/tools/claude/CLAUDE.md
+#   ~/.claude/projects/<PROJECT_PATH>/memory                     → mind/tools/claude/memory
+#   ~/.claude/{agents,skills,workflows}/  (real dirs)
+#     root                                                       → mind/{agents,skills,workflows}     (agnostic fleet)
+#     <ctx>                                                      → mind/contexts/<ctx>/{agents,…}     (per-context, discovered)
+#
+# Override MIND_DIR=... if cloned elsewhere.
+
+mind mind-list mind-uninstall:
+	@mode="$@"; \
+	if [ ! -d "$(MIND_DIR)" ]; then \
+	  echo "mind/ not found at $(MIND_DIR); set MIND_DIR=... or clone first" >&2; \
+	  exit 1; \
+	fi; \
+	apply() { \
+	  local dst="$$1" src="$$2"; \
+	  case $$mode in \
+	    mind) \
+	      if [ -L "$$dst" ] && [ "$$(readlink "$$dst")" = "$$src" ]; then \
+	        printf '  ok    %s\n' "$$dst"; \
+	      elif [ -e "$$dst" ] && [ ! -L "$$dst" ]; then \
+	        printf '  skip  %s (exists, not a symlink)\n' "$$dst" >&2; \
+	      else \
+	        mkdir -p "$$(dirname "$$dst")"; \
+	        ln -sfn "$$src" "$$dst"; \
+	        printf '  link  %s -> %s\n' "$$dst" "$$src"; \
+	      fi ;; \
+	    mind-uninstall) \
+	      if [ -L "$$dst" ] && [ "$$(readlink "$$dst")" = "$$src" ]; then \
+	        rm "$$dst"; printf '  rm    %s\n' "$$dst"; \
+	      else \
+	        printf '  skip  %s (not our symlink)\n' "$$dst" >&2; \
+	      fi ;; \
+	    mind-list) printf '  %s -> %s\n' "$$dst" "$$src" ;; \
+	  esac; \
+	}; \
+	apply "$(HOME_DIR)/.claude/CLAUDE.md"                                "$(MIND_DIR)/tools/claude/CLAUDE.md"; \
+	apply "$(HOME_DIR)/.claude/projects/$(PROJECT_PATH)/memory"          "$(MIND_DIR)/tools/claude/memory"; \
+	for kind in agents skills workflows; do \
+	  apply "$(HOME_DIR)/.claude/$$kind/root"                            "$(MIND_DIR)/$$kind"; \
+	  shopt -s nullglob; \
+	  for ctx in "$(MIND_DIR)/contexts"/*/; do \
+	    name=$$(basename "$$ctx"); \
+	    if [ -d "$$ctx$$kind" ]; then \
+	      apply "$(HOME_DIR)/.claude/$$kind/$$name"                       "$$ctx$$kind"; \
+	    fi; \
+	  done; \
+	  shopt -u nullglob; \
+	done; \
+	if [ "$$mode" = mind-uninstall ]; then \
+	  for kind in agents skills workflows; do \
+	    rmdir "$(HOME_DIR)/.claude/$$kind" 2>/dev/null || true; \
+	  done; \
+	fi
