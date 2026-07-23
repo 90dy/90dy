@@ -6,6 +6,7 @@ set -euo pipefail
 USER=90dy
 OWNED_ORGS=(ctnr-io range12 modehero)
 EXCLUDE_REPOS=(90dy)
+MAX_AGE_MONTHS=24   # drop repos not pushed within this window from "What I work on"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 README="$ROOT/README.md"
@@ -13,13 +14,15 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 exclude_jq=$(printf '"%s",' "${EXCLUDE_REPOS[@]}"); exclude_jq="[${exclude_jq%,}]"
+cutoff=$(date -u -d "-${MAX_AGE_MONTHS} months" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null \
+      || date -u -v-"${MAX_AGE_MONTHS}"m +%Y-%m-%dT%H:%M:%SZ)
 
 {
   echo "### 📦 What I work on"
   echo
   gh api "users/$USER/repos?per_page=100&type=owner&sort=pushed" --paginate \
-    | jq -r --argjson excl "$exclude_jq" '.[]
-        | select(.fork==false and .archived==false and .private==false and (.name|IN($excl[])|not))
+    | jq -r --argjson excl "$exclude_jq" --arg cutoff "$cutoff" '.[]
+        | select(.fork==false and .archived==false and .private==false and (.name|IN($excl[])|not) and .pushed_at >= $cutoff)
         | [(.stargazers_count|tostring), .name, .html_url, (.description // ""), (.language // "")] | @tsv' \
     | sort -t$'\t' -k1,1nr \
     | awk -F'\t' '{

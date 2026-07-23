@@ -2,7 +2,7 @@
 
 Developer since 2010 - I started right before the HTML5 web hype (which was awesome btw) and never stopped shipping.
 
-By day I'm a **Platform Engineer on the Developer Platform team at [Shadow](https://shadow.tech)**, working on infrastructure and developer tooling at scale. On the side I build my own open-source infra and tooling under the **90dy** umbrella.
+By day I'm an **SRE / Serverless Engineer in the SRE team at [Shadow](https://shadow.tech)**, keeping infrastructure reliable at scale. On the side I build my own open-source infra and tooling under the **90dy** umbrella.
 
 ### 🚧 What I'm building
 
@@ -20,19 +20,8 @@ By day I'm a **Platform Engineer on the Developer Platform team at [Shadow](http
 - [deno-ffi](https://github.com/90dy/deno-ffi)
 - [digital-products-assets](https://github.com/90dy/digital-products-assets) `HTML`
 - [dotenv.sh](https://github.com/90dy/dotenv.sh) - Maintain shell env better `Shell`
-- [editorconfig](https://github.com/90dy/editorconfig)
-- [esnext-extended](https://github.com/90dy/esnext-extended) - Extends ESNext with Missing & Powerful features
-- [gha-git-sync](https://github.com/90dy/gha-git-sync) - 🔄 Simplify collaboration and development by efficiently syncing the latest updates from another repository with the Git Sync from 90dy GitHub Action.
-- [gha-pnpm-release](https://github.com/90dy/gha-pnpm-release) - 🔄 Pnpm Release GitHub Action, a powerful tool for synchronizing the latest changes from another repository and streamlining your release process with ease.
-- [gha-semantic-release](https://github.com/90dy/gha-semantic-release) - 🔄 Automate versioning and release management with ease using the Semantic Release GitHub Action, simplifying your software deployment process 
-- [go-ssh](https://github.com/90dy/go-ssh) - SSH Library w/ Functional Option Pattern `Go`
 - [lmstudiaw](https://github.com/90dy/lmstudiaw) `TypeScript`
-- [recognize-song](https://github.com/90dy/recognize-song) - Scripts that automatically recognize songs `JavaScript`
-- [solana-p2p](https://github.com/90dy/solana-p2p) `JavaScript`
-- [tmux-iterm2](https://github.com/90dy/tmux-iterm2) - 💻 Tmux with Iterm2-like configuration
-- [ts-dotenv](https://github.com/90dy/ts-dotenv) - 🏡 Type-check & parse dotenv files the right way `TypeScript`
 - [ts-openapis](https://github.com/90dy/ts-openapis) - Typescript pre-generated OpenAPIs clients `TypeScript`
-- [ui.js](https://github.com/90dy/ui.js) `Shell`
 <!-- AUTO:REPOS:END -->
 
 <!-- AUTO:ORGS:START -->
