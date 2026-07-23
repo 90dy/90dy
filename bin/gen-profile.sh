@@ -4,8 +4,8 @@
 set -euo pipefail
 
 USER=90dy
-OWNED_ORGS=(ctnr-io range12 modehero)
-EXCLUDE_REPOS=(90dy)
+OWNED_ORGS=(ctnr-io kontabo)
+EXCLUDE_REPOS=(90dy deno-ffi digital-products-assets dotenv.sh protoc-gen-hbs)
 MAX_AGE_MONTHS=24   # drop repos not pushed within this window from "What I work on"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
