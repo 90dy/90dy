@@ -13,7 +13,7 @@ By day I'm an **SRE / Serverless Engineer in the SRE team at [Shadow](https://sh
 <!-- AUTO:REPOS:START -->
 ### 📦 What I work on
 
-- [awesome-ascii](https://github.com/90dy/awesome-ascii) - 👻 Awesome ASCII games, libraries, tools, softwares and more... just for the fun ⭐69
+- [awesome-ascii](https://github.com/90dy/awesome-ascii) - 👻 Awesome ASCII games, libraries, tools, softwares and more... just for the fun ⭐70
 - [typescript-template-engine](https://github.com/90dy/typescript-template-engine) - 🧬 TypeScript as a template engine `TypeScript` ⭐10
 - [ctnr-io](https://github.com/90dy/ctnr-io) - 🌥️ Cloud made simple. `TypeScript`
 - [lmstudiaw](https://github.com/90dy/lmstudiaw) `TypeScript`
